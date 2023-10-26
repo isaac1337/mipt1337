@@ -1,0 +1,35 @@
+import tkinter as tk
+
+
+def calculatecomplementarycolor():
+    inputcolor = colorentry.get()
+
+    r = int(inputcolor[0:2], 16)
+    g = int(inputcolor[2:4], 16)
+    b = int(inputcolor[4:6], 16)
+
+    complementaryr = 255 - r
+    complementaryg = 255 - g
+    complementaryb = 255 - b
+
+    complementarycolor = f"#{complementaryr:02x}{complementaryg:02x}{complementaryb:02x}"
+
+    resultlabel.config(text="Cumплиментарный цвет: " + complementarycolor, fg=complementarycolor)
+
+
+root = tk.Tk()
+root.title("Счетовод cumплиментарных цветов")
+
+colorlabel = tk.Label(root, text="Введите цвет (в HEX-формате без #):")
+colorlabel.pack()
+
+colorentry = tk.Entry(root)
+colorentry.pack()
+
+calculatebutton = tk.Button(root, text="Посчитать", command=calculatecomplementarycolor)
+calculatebutton.pack()
+
+resultlabel = tk.Label(root)
+resultlabel.pack()
+
+root.mainloop()
