@@ -1,0 +1,50 @@
+import tkinter as tk
+
+def index():
+    weight = float(weightentry.get())
+    height = float(heightentry.get())/100
+
+    bmi = weight/(height**2)
+
+    resultlabel.config(text="Ваш ИМТ: %.2f" % bmi)
+
+    if bmi < 16:
+        categorylabel.config(text="Слендермен (выраженный дефицит массы тела)")
+    elif bmi < 18.5:
+        categorylabel.config(text="Бедный студент (дефицит массы тела)")
+    elif bmi < 24.9:
+        categorylabel.config(text="Нормальный вес")
+    elif bmi < 29.9:
+        categorylabel.config(text="Избыточный вес (предожирение)")
+    elif bmi < 34.9:
+        categorylabel.config(text="На массе 1 степени")
+    elif bmi < 39.9:
+        categorylabel.config(text="На массе 2 степени")
+    else:
+        categorylabel.config(text="На массе 3 степени")
+
+
+root = tk.Tk()
+root.geometry("300x300")
+root.title("Расчёт индекса массы тела")
+
+
+weightlabel = tk.Label(root, text="Вес (кг):")
+weightlabel.pack()
+weightentry = tk.Entry(root)
+weightentry.pack()
+
+heightlabel = tk.Label(root, text="Рост (см):")
+heightlabel.pack()
+heightentry = tk.Entry(root)
+heightentry.pack()
+
+calculatebutton = tk.Button(root, text="Рассчитать", command=index)
+calculatebutton.pack()
+resultlabel = tk.Label(root)
+resultlabel.pack()
+
+categorylabel = tk.Label(root)
+categorylabel.pack()
+
+root.mainloop()
