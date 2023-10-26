@@ -1,0 +1,21 @@
+#1
+import tkinter as tk
+
+def calculator():
+    input = entry.get()
+    result = eval(input)
+    result_label.config(text="отъветъ: " + str(result))
+
+window = tk.Tk()
+window.geometry("300x300")
+window.title("Древнерусский калькулятор Абак")
+
+entry= tk.Entry(window)
+entry.pack()
+
+calculate_button = tk.Button(window, text="искусити", command=calculator)
+calculate_button.pack()
+result_label = tk.Label(window)
+result_label.pack()
+
+window.mainloop()
