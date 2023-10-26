@@ -1,0 +1,58 @@
+import random
+from random import randint
+from tkinter import Tk, Canvas
+
+
+WIDTH = 300
+HEIGHT = 200
+
+
+class Ball:
+    def __init__(self):
+        self.R = randint(10, 50)  # храним размер, при каждом создании объекта будет выбираться случайно
+        self.x = randint(self.R, WIDTH - self.R)  # храним положение по x и y
+        self.y = randint(self.R, HEIGHT - self.R)
+        self.dx, self.dy = (10, 10)  # это по сути шаг движения шаров. если увеличить -- будут двигаться быстрее
+        self.color = self.generate_random_color()
+        self.ball_id = canvas.create_oval(self.x - self.R,
+                                          self.y - self.R,
+                                          self.x + self.R,
+                                          self.y + self.R, fill=self.color)  # при создании шарика отрисовываем его
+
+    def generate_random_color(self):
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        return f'#{r:02x}{g:02x}{b:02x}'
+
+    def move(self):
+        self.x += self.dx
+        self.y += self.dy
+        if self.x + self.R > WIDTH or self.x - self.R <= 0:  # отражение от стенок
+            self.dx = -self.dx
+        if self.y + self.R > HEIGHT or self.y - self.R <= 0:  # отражение от стен
+            self.dy = -self.dy
+
+    def show(self):
+        canvas.move(self.ball_id, self.dx, self.dy)
+
+
+def click_handler(event):
+    balls.append(Ball())  # при нажатии на канвас создаем новый шарик и добавляем его в список balls
+    print('Hello World! x=', event.x, 'y=', event.y)
+
+def tick():
+    for ball in balls:
+        ball.move()
+        ball.show()
+    root.after(50, tick)
+
+
+root = Tk()
+root.geometry(f'{WIDTH}x{HEIGHT}')
+canvas = Canvas(root)
+canvas.pack()
+canvas.bind('<Button-1>', click_handler)
+balls = [Ball() for _ in range(5)]
+tick()
+root.mainloop()
