@@ -1,0 +1,81 @@
+import math
+
+class Vector:
+    def __init__(self, x = 0, y = 0, z = 0):
+        self.x = x
+        self.y = y
+        self.z = z
+    def __abs__(self):
+        return (self.x ** 2 + self.y ** 2 + self.z ** 2) ** 0.5
+    def __add__(self, other):
+        assert isinstance(other, Vector), "Ты вектор нормальный введи"
+        return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
+    def __sub__(self, other):
+        assert isinstance(other, Vector), "Ты вектор нормальный введи"
+        return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
+    def __mul__(self, other):
+        if isinstance(other, Vector):
+            return self.x * other.x + self.y * other.y + self.z * other.z
+        elif isinstance(other, (int, float)):
+            return Vector(self.x * other, self.y * other, self.z * other)
+        else:
+            raise TypeError("Что ты вообще ввел?")
+
+
+def center_of_mass(points):
+    sum_x = 0
+    sum_y = 0
+    sum_z = 0
+
+    for point in points:
+        sum_x += point.x
+        sum_y += point.y
+        sum_z += point.z
+
+    center_x = sum_x / len(points)
+    center_y = sum_y / len(points)
+    center_z = sum_z / len(points)
+
+    ans = Vector(center_x, center_y, center_z)
+    return ans
+
+def calculate_area(point1, point2, point3):
+    a = abs((point1 - point2))
+    b = abs((point2 - point3))
+    c = abs((point3 - point1))
+    p = (a + b + c) / 2
+    return math.sqrt(p * (p - a) * (p - b) * (p - c))
+
+def find_max_area(points):
+    max_area = 0
+    max_points = None
+    for i in range(len(points)-2):
+        for j in range(i+1, len(points)-1):
+            for k in range(j+1, len(points)):
+                area = calculate_area(points[i], points[j], points[k])
+                if area > max_area:
+                    max_area = area
+                    max_points = (points[i], points[j], points[k])
+    return max_area, max_points
+
+
+
+# Тест работоспособности кода
+points = [Vector(0, 0, 0), Vector(1, 1, 1), Vector(2, 3, 4), Vector(5, 6, 7), Vector(8, 9, 10)]
+
+max_area, max_points = find_max_area(points)
+print("Максимальная площадь треугольника:", max_area)
+print("Точки, образующие треугольник с наибольшей площадью:")
+for point in max_points:
+    print(point.x, point.y, point.z)
+
+vec1 = Vector(1, 2, 3)
+vec2 = Vector(4, 5, 6)
+vec3 = Vector(9, 5, 8)
+points = [vec1, vec2]
+
+b = calculate_area(vec1, vec2, vec3)
+print(b)
+print(vec1 * vec2)
+a = center_of_mass(points)
+print(a.x, a.y, a.z)
