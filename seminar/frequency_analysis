@@ -1,0 +1,19 @@
+import string
+from nltk import word_tokenize
+from nltk.probability import FreqDist
+
+f = open('C:\\Users\\Artem\\Desktop\\Russian_text.txt', "r", encoding="utf-8")
+text = f.read()
+text = text.lower()
+spec_chars = string.punctuation + '\n\xa0«»\t—…'
+def remove_chars_from_text(text, chars):
+    return "".join([ch for ch in text if ch not in chars])
+text = remove_chars_from_text(text, spec_chars)
+text = remove_chars_from_text(text, string.digits)
+text_tokens = word_tokenize(text)
+result_list = []
+for x in text_tokens:
+    for y in list(x):
+         result_list.append(y)
+fdist = FreqDist(result_list)
+print(fdist.most_common())
